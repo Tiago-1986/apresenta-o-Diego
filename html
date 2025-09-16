@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zuplog Armazenagem: Otimizando Sua Logística</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Zuplog Brand Palette (#003366, #007FFF, #F0F0F0) -->
+    <!-- Application Structure Plan: A estrutura linear da apresentação foi convertida para uma aplicação de rolagem vertical de página única. Uma barra de navegação fixa oferece acesso imediato a qualquer seção, melhorando a usabilidade. Esta abordagem não linear permite que os usuários explorem o conteúdo em seu próprio ritmo. A principal interatividade é um gráfico dinâmico na seção 'Casos de Sucesso', onde os usuários podem alternar conjuntos de dados através de botões, tornando a exploração de dados mais envolvente do que um slide estático. -->
+    <!-- Visualization & Content Choices: Informação: Serviços, Benefícios -> Meta: Organizar -> Método: Grade de cartões com ícones (caracteres Unicode) -> Interação: Efeitos de hover -> Justificativa: Apresentação clara e escaneável. Informação: Métricas de sucesso (redução de X%, aumento de Y%) -> Meta: Comparar -> Método: Gráfico de barras interativo (Chart.js em Canvas) -> Interação: O usuário clica em botões para atualizar os dados do gráfico para diferentes casos da indústria -> Justificativa: Permite comparação direta e torna os dados de desempenho mais tangíveis e impactantes. Confirmado SEM SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #F0F0F0;
+        }
+        h1, h2, h3, .font-title {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #003366, #007FFF);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md shadow-md fixed w-full top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#inicio" class="text-2xl font-bold font-title" style="color: #003366;">ZUPLOG</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#sobre" class="text-gray-600 hover:text-[#007FFF] transition-colors">Quem Somos</a>
+                <a href="#solucoes" class="text-gray-600 hover:text-[#007FFF] transition-colors">Soluções</a>
+                <a href="#beneficios" class="text-gray-600 hover:text-[#007FFF] transition-colors">Benefícios</a>
+                <a href="#casos-sucesso" class="text-gray-600 hover:text-[#007FFF] transition-colors">Casos de Sucesso</a>
+                <a href="#contato" class="text-gray-600 hover:text-[#007FFF] transition-colors">Contato</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
+                    <span class="text-3xl">☰</span>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#sobre" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Quem Somos</a>
+            <a href="#solucoes" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Soluções</a>
+            <a href="#beneficios" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Benefícios</a>
+            <a href="#casos-sucesso" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Casos de Sucesso</a>
+            <a href="#contato" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Contato</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero-gradient text-white min-h-screen flex items-center justify-center text-center p-6">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">ZUPLOG ARMAZENAGEM</h1>
+                <p class="text-lg md:text-2xl font-light">Otimizando Sua Logística com Soluções Inteligentes para Seus Desafios de Armazenagem.</p>
+            </div>
+        </section>
+
+        <section id="sobre" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-4" style="color: #003366;">Quem Somos</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Esta seção apresenta a Zuplog, nossa missão e os valores que nos guiam. Aqui você entenderá os pilares que sustentam a qualidade e a confiança dos nossos serviços logísticos.</p>
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <img src="https://placehold.co/600x400/E2E8F0/4A5568?text=Armaz%C3%A9m+Moderno" alt="Armazém moderno e organizado" class="rounded-lg shadow-xl w-full">
+                    </div>
+                    <div class="md:w-1/2">
+                        <p class="mb-6 text-lg">A Zuplog é especialista em soluções de armazenagem e logística, dedicada a otimizar a cadeia de suprimentos de nossos clientes com tecnologia de ponta e uma equipe altamente qualificada. Nossa missão é oferecer eficiência, segurança e inovação.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+                            <div class="p-4">
+                                <span class="text-4xl" style="color: #007FFF;">🏆</span>
+                                <h3 class="font-bold mt-2">Experiência</h3>
+                                <p class="text-sm text-gray-600">Anos de mercado garantindo a melhor performance.</p>
+                            </div>
+                            <div class="p-4">
+                                <span class="text-4xl" style="color: #007FFF;">💡</span>
+                                <h3 class="font-bold mt-2">Inovação</h3>
+                                <p class="text-sm text-gray-600">Uso de tecnologia para otimizar processos.</p>
+                            </div>
+                            <div class="p-4">
+                                <span class="text-4xl" style="color: #007FFF;">🚀</span>
+                                <h3 class="font-bold mt-2">Eficiência</h3>
+                                <p class="text-sm text-gray-600">Agilidade e precisão em cada etapa da operação.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solucoes" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-4" style="color: #003366;">Nossas Soluções e Serviços</h2>
+                 <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Explore nosso portfólio de serviços. Cada solução foi desenvolvida para atender a uma necessidade específica da sua cadeia logística, desde a estocagem até a distribuição final, sempre com foco em otimização.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <span class="text-5xl">📦</span>
+                        <h3 class="font-bold text-xl my-4">Armazenagem Geral</h3>
+                        <p class="text-gray-600">Estruturas seguras e flexíveis para acondicionar seus produtos com total controle e eficiência.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <span class="text-5xl">🔄</span>
+                        <h3 class="font-bold text-xl my-4">Cross-Docking</h3>
+                        <p class="text-gray-600">Agilize a distribuição de suas mercadorias, reduzindo custos de armazenagem e tempo de entrega.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <span class="text-5xl">📊</span>
+                        <h3 class="font-bold text-xl my-4">Gestão de Estoques</h3>
+                        <p class="text-gray-600">Controle preciso do seu inventário com relatórios detalhados e visibilidade em tempo real.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300">
+                        <span class="text-5xl">💻</span>
+                        <h3 class="font-bold text-xl my-4">Sistema WMS</h3>
+                        <p class="text-gray-600">Nossa plataforma de Warehouse Management System otimiza cada detalhe da sua operação.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="beneficios" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-4" style="color: #003366;">Por Que Escolher a Zuplog?</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Descubra as vantagens competitivas de ser nosso parceiro. Estes são os benefícios diretos que nossas soluções trarão para o seu negócio, impactando positivamente seus resultados e a satisfação dos seus clientes.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div class="flex items-start space-x-4">
+                        <span class="text-3xl mt-1" style="color: #007FFF;">💰</span>
+                        <div>
+                            <h3 class="font-bold text-lg">Economia de Custos</h3>
+                            <p class="text-gray-600">Otimizamos sua operação logística para reduzir despesas com armazenagem e transporte.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <span class="text-3xl mt-1" style="color: #007FFF;">⚡</span>
+                        <div>
+                            <h3 class="font-bold text-lg">Agilidade</h3>
+                            <p class="text-gray-600">Processos rápidos e eficientes que garantem a entrega no prazo e a satisfação do cliente.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <span class="text-3xl mt-1" style="color: #007FFF;">🛡️</span>
+                        <div>
+                            <h3 class="font-bold text-lg">Segurança Total</h3>
+                            <p class="text-gray-600">Monitoramento 24/7 e seguros completos para a proteção integral da sua carga.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <span class="text-3xl mt-1" style="color: #007FFF;">📈</span>
+                        <div>
+                            <h3 class="font-bold text-lg">Escalabilidade</h3>
+                            <p class="text-gray-600">Nossas soluções acompanham o crescimento da sua empresa, adaptando-se às suas necessidades.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <span class="text-3xl mt-1" style="color: #007FFF;">👥</span>
+                        <div>
+                            <h3 class="font-bold text-lg">Equipe Qualificada</h3>
+                            <p class="text-gray-600">Profissionais experientes dedicados a encontrar as melhores soluções para o seu negócio.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <span class="text-3xl mt-1" style="color: #007FFF;">🌐</span>
+                        <div>
+                            <h3 class="font-bold text-lg">Tecnologia de Ponta</h3>
+                            <p class="text-gray-600">Utilizamos o sistema WMS para garantir rastreabilidade e otimização total do seu estoque.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="casos-sucesso" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold mb-4" style="color: #003366;">Resultados que Falam por Si</h2>
+                <p class="max-w-3xl mx-auto mb-8 text-gray-600">Nossas soluções geram impacto real nos negócios dos nossos clientes. Interaja com os botões para explorar alguns de nossos resultados anonimizados e veja como podemos otimizar sua operação.</p>
+                <div class="flex justify-center space-x-2 sm:space-x-4 mb-8">
+                    <button class="case-study-btn bg-[#007FFF] text-white py-2 px-4 sm:px-5 rounded-full shadow-md hover:bg-[#005bb5] transition-colors focus:outline-none focus:ring-2 focus:ring-[#007FFF] focus:ring-opacity-50 text-sm sm:text-base" data-case="case1">Indústria Varejista</button>
+                    <button class="case-study-btn bg-gray-200 text-gray-700 py-2 px-4 sm:px-5 rounded-full shadow-md hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 text-sm sm:text-base" data-case="case2">E-commerce</button>
+                    <button class="case-study-btn bg-gray-200 text-gray-700 py-2 px-4 sm:px-5 rounded-full shadow-md hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 text-sm sm:text-base" data-case="case3">Setor Farmacêutico</button>
+                </div>
+                <div class="bg-white p-4 sm:p-8 rounded-xl shadow-2xl">
+                    <div class="chart-container">
+                        <canvas id="successChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contato" class="py-16 text-white" style="background-color: #003366;">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-4">Vamos Conversar?</h2>
+            <p class="mb-8 max-w-lg mx-auto">Entre em contato e descubra como a Zuplog pode otimizar a sua logística. Nossa equipe está pronta para entender seu desafio e propor a melhor solução.</p>
+            <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 mb-8">
+                <span>📞 (48) 99668-5381</span>
+                <span>📧 contato@zuplog.com.br</span>
+                <span>🌐 www.zuplog.com.br</span>
+            </div>
+            <a href="#" class="bg-white text-[#003366] font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition-colors text-lg">
+                Agende uma consulta gratuita!
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('#mobile-menu a, nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (link.getAttribute('href').startsWith('#')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('py-2');
+                    header.classList.remove('py-3');
+                } else {
+                    header.classList.add('py-3');
+                    header.classList.remove('py-2');
+                }
+            });
+
+            const caseStudiesData = {
+                case1: {
+                    labels: ['Redução de Custos', 'Aumento de Eficiência', 'Precisão no Estoque', 'Agilidade na Entrega'],
+                    data: [25, 35, 40, 30],
+                    title: 'Resultados para a Indústria Varejista'
+                },
+                case2: {
+                    labels: ['Redução de Custos', 'Aumento de Eficiência', 'Precisão no Estoque', 'Agilidade na Entrega'],
+                    data: [20, 45, 50, 40],
+                    title: 'Resultados para E-commerce'
+                },
+                case3: {
+                    labels: ['Redução de Custos', 'Aumento de Eficiência', 'Precisão no Estoque', 'Agilidade na Entrega'],
+                    data: [15, 25, 60, 20],
+                    title: 'Resultados para o Setor Farmacêutico'
+                }
+            };
+            
+            const ctx = document.getElementById('successChart').getContext('2d');
+            let successChart;
+
+            function renderChart(caseId) {
+                const chartData = caseStudiesData[caseId];
+
+                if (successChart) {
+                    successChart.destroy();
+                }
+
+                successChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'Melhoria Percentual (%)',
+                            data: chartData.data,
+                            backgroundColor: [
+                                'rgba(0, 127, 255, 0.6)',
+                                'rgba(0, 51, 102, 0.6)',
+                                'rgba(0, 127, 255, 0.4)',
+                                'rgba(0, 51, 102, 0.4)',
+                            ],
+                            borderColor: [
+                                'rgba(0, 127, 255, 1)',
+                                'rgba(0, 51, 102, 1)',
+                                'rgba(0, 127, 255, 1)',
+                                'rgba(0, 51, 102, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: chartData.title,
+                                font: {
+                                    size: 18,
+                                    family: "'Montserrat', sans-serif"
+                                },
+                                color: '#003366'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Melhoria (%)'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            const caseStudyButtons = document.querySelectorAll('.case-study-btn');
+            caseStudyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const caseId = button.dataset.case;
+                    renderChart(caseId);
+                    
+                    caseStudyButtons.forEach(btn => {
+                        btn.classList.remove('bg-[#007FFF]', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    
+                    button.classList.add('bg-[#007FFF]', 'text-white');
+                    button.classList.remove('bg-gray-200', 'text-gray-700');
+                });
+            });
+
+            renderChart('case1');
+        });
+    </script>
+
+</body>
+</html>
+
