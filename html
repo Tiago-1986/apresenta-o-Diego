@@ -1,349 +1,556 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zuplog Armazenagem: Otimizando Sua Logística</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Apresentação Zuplog</title>
+    <!-- Fontes do Google: Montserrat e Open Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Zuplog Brand Palette (#003366, #007FFF, #F0F0F0) -->
-    <!-- Application Structure Plan: A estrutura linear da apresentação foi convertida para uma aplicação de rolagem vertical de página única. Uma barra de navegação fixa oferece acesso imediato a qualquer seção, melhorando a usabilidade. Esta abordagem não linear permite que os usuários explorem o conteúdo em seu próprio ritmo. A principal interatividade é um gráfico dinâmico na seção 'Casos de Sucesso', onde os usuários podem alternar conjuntos de dados através de botões, tornando a exploração de dados mais envolvente do que um slide estático. -->
-    <!-- Visualization & Content Choices: Informação: Serviços, Benefícios -> Meta: Organizar -> Método: Grade de cartões com ícones (caracteres Unicode) -> Interação: Efeitos de hover -> Justificativa: Apresentação clara e escaneável. Informação: Métricas de sucesso (redução de X%, aumento de Y%) -> Meta: Comparar -> Método: Gráfico de barras interativo (Chart.js em Canvas) -> Interação: O usuário clica em botões para atualizar os dados do gráfico para diferentes casos da indústria -> Justificativa: Permite comparação direta e torna os dados de desempenho mais tangíveis e impactantes. Confirmado SEM SVG/Mermaid. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: #F0F0F0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
         }
-        h1, h2, h3, .font-title {
+
+        /* Estilos de fonte personalizados */
+        .font-title {
             font-family: 'Montserrat', sans-serif;
         }
-        .hero-gradient {
-            background: linear-gradient(135deg, #003366, #007FFF);
+
+        /* Classes de cores personalizadas */
+        .bg-zuplog-dark {
+            background-color: #003366;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
-            max-height: 50vh;
+
+        .bg-zuplog-light {
+            background-color: #007FFF;
+        }
+
+        .text-zuplog-dark {
+            color: #003366;
+        }
+
+        .text-zuplog-light {
+            color: #007FFF;
+        }
+
+        .bg-highlight {
+            background-color: #FFA500;
+        }
+
+        /* Estilos para os slides */
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Estilo para o loader */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #003366;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
-<body class="text-gray-800">
 
-    <header id="header" class="bg-white/80 backdrop-blur-md shadow-md fixed w-full top-0 z-50 transition-all duration-300">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#inicio" class="text-2xl font-bold font-title" style="color: #003366;">ZUPLOG</a>
-            <div class="hidden md:flex space-x-8">
-                <a href="#sobre" class="text-gray-600 hover:text-[#007FFF] transition-colors">Quem Somos</a>
-                <a href="#solucoes" class="text-gray-600 hover:text-[#007FFF] transition-colors">Soluções</a>
-                <a href="#beneficios" class="text-gray-600 hover:text-[#007FFF] transition-colors">Benefícios</a>
-                <a href="#casos-sucesso" class="text-gray-600 hover:text-[#007FFF] transition-colors">Casos de Sucesso</a>
-                <a href="#contato" class="text-gray-600 hover:text-[#007FFF] transition-colors">Contato</a>
+<body class="bg-[#F0F0F0]">
+    <div id="presentation-container" class="w-full h-full flex flex-col items-center justify-center">
+
+        <!-- Slide 1: Capa -->
+        <div id="slide-1" class="slide bg-zuplog-dark text-white text-center p-8 relative">
+            <div class="absolute top-8 left-8">
+                <!-- Ícone simulado da Zuplog -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16" viewBox="0 0 24 24" fill="none" stroke="#FFA500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20v-7H6.5a2.5 2.5 0 0 1 0-5H20" />
+                    <polyline points="15 13 18 10 15 7" />
+                </svg>
             </div>
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
-                    <span class="text-3xl">☰</span>
+            <div class="flex-grow flex flex-col justify-center items-center">
+                <h1 class="font-title text-5xl md:text-6xl font-bold mb-4">Eficiência Logística com WMS Stokki</h1>
+                <p class="font-light text-xl md:text-2xl">Operação Estratégica por Santa Catarina</p>
+            </div>
+            <div class="absolute bottom-8 right-8 text-sm">
+                <p>Nome do Apresentador</p>
+                <p>Setembro de 2025</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Quem Somos -->
+        <div id="slide-2" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 p-4">
+                    <h2 class="font-title text-4xl font-bold mb-6">Quem Somos</h2>
+                    <p class="text-lg leading-relaxed">Na ZUPLOG ARMAZENAGEM, somos especialistas em soluções logísticas inteligentes, com foco em armazenagem, gestão de estoque e operação integrada via <span class="text-zuplog-light font-semibold">WMS Stokki</span>. Atuamos estrategicamente em Santa Catarina, oferecendo eficiência, segurança e economia para empresas que valorizam performance.</p>
+                    <div class="mt-8 grid grid-cols-2 gap-4 text-center">
+                        <div class="p-4 bg-[#F0F0F0] rounded-lg shadow-md">
+                            <p class="font-bold text-lg">Experiência</p>
+                        </div>
+                        <div class="p-4 bg-[#F0F0F0] rounded-lg shadow-md">
+                            <p class="font-bold text-lg">Inovação</p>
+                        </div>
+                        <div class="p-4 bg-[#F0F0F0] rounded-lg shadow-md">
+                            <p class="font-bold text-lg">Eficiência</p>
+                        </div>
+                        <div class="p-4 bg-[#F0F0F0] rounded-lg shadow-md">
+                            <p class="font-bold text-lg">Segurança</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <!-- O CÓDIGO A SEGUIR FOI ATUALIZADO PARA INCLUIR UMA IMAGEM REAL -->
+                    <img src="https://images.unsplash.com/photo-1628126084606-d5b88939c43d?q=80&w=1740&auto=format&fit=crop" alt="Foto de um armazém moderno e organizado" class="rounded-lg shadow-xl">
+                    <!-- FIM DO CÓDIGO ATUALIZADO -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Visão Geral do Processo Logístico -->
+        <div id="slide-3" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="font-title text-4xl font-bold mb-12 text-center">Fluxo Operacional Integrado com WMS Stokki</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-zuplog-light mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                            <polyline points="10 9 9 9 8 9" />
+                        </svg>
+                        <p class="font-bold text-lg">Recebimento da NF</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-zuplog-light mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                        </svg>
+                        <p class="font-bold text-lg">Recebimento da Mercadoria</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-zuplog-light mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                            <line x1="3" y1="9" x2="21" y2="9" />
+                            <line x1="9" y1="21" x2="9" y2="9" />
+                            <line x1="15" y1="21" x2="15" y2="9" />
+                        </svg>
+                        <p class="font-bold text-lg">Armazenagem</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-zuplog-light mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                        </svg>
+                        <p class="font-bold text-lg">Recebimento de Pedido</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-zuplog-light mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                            <path d="M2 12l10 5 10-5" />
+                            <path d="M2 17l10 5 10-5" />
+                        </svg>
+                        <p class="font-bold text-lg">Picking</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-zuplog-light mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 22h14" />
+                            <path d="M5 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2z" />
+                            <path d="M15 13H9" />
+                        </svg>
+                        <p class="font-bold text-lg">Packing</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-zuplog-light mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 20.27c-3.15 0-5.71-2.5-5.71-5.6V4.13c0-2.31 1.83-4.13 4.1-4.13a4.08 4.08 0 0 1 4.1 4.13v3.91H9.86V4.13A1.9 1.9 0 0 0 7.97 2a1.88 1.88 0 0 0-1.87 1.87v10.54a1.88 1.88 0 0 0 1.87 1.87c2.14 0 3.86-1.72 3.86-3.86V6.16h2.29v5.99c0 3.1-2.57 5.66-5.72 5.66H10" />
+                        </svg>
+                        <p class="font-bold text-lg">Embarque</p>
+                    </div>
+                    <div class="flex flex-col items-center text-center">
+                        <svg class="w-16 h-16 text-zuplog-light mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s-8-4.74-8-12a8 8 0 0 1 16 0c0 7.26-8 12-8 12z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <p class="font-bold text-lg">Entrega</p>
+                    </div>
+                </div>
+                <p class="mt-12 text-center text-lg italic text-gray-600 max-w-2xl mx-auto">Cada etapa é monitorada e controlada em tempo real, garantindo rastreabilidade, agilidade e redução de erros. O WMS Stokki é o cérebro da operação — e a ZUPLOG é o músculo que executa com excelência.</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Recebimento da NF -->
+        <div id="slide-4" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <svg class="w-2/3 h-2/3 text-zuplog-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                </div>
+                <div class="md:w-1/2 p-4">
+                    <h2 class="font-title text-4xl font-bold mb-6">Recebimento da NF</h2>
+                    <p class="text-lg leading-relaxed">A nota fiscal é integrada automaticamente ao sistema, iniciando o processo com total rastreabilidade. Isso elimina retrabalho e garante conformidade fiscal desde o primeiro momento.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Recebimento de Mercadoria -->
+        <div id="slide-5" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row-reverse items-center gap-8">
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <img src="https://placehold.co/600x400/F0F0F0/003366?text=Operador+com+Coletor" alt="Imagem de um operador com coletor de dados" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="md:w-1/2 p-4">
+                    <h2 class="font-title text-4xl font-bold mb-6">Recebimento de Mercadoria</h2>
+                    <p class="text-lg leading-relaxed">Conferência física com validação via coletor. Divergências são tratadas em tempo real, garantindo controle de qualidade e agilidade no desembarque.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Armazenagem Inteligente -->
+        <div id="slide-6" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <img src="https://placehold.co/600x400/F0F0F0/003366?text=Aloca%C3%A7%C3%A3o+de+Pallet" alt="Imagem de um pallet sendo alocado em um armazém" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="md:w-1/2 p-4">
+                    <h2 class="font-title text-4xl font-bold mb-6">Armazenagem Inteligente</h2>
+                    <p class="text-lg leading-relaxed">O WMS define a melhor localização com base em giro, categoria e estratégia de picking. Isso otimiza espaço e acelera futuras separações.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Recebimento de Pedido -->
+        <div id="slide-7" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row-reverse items-center gap-8">
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <svg class="w-2/3 h-2/3 text-zuplog-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+                        <path d="M12 10.5V14l2.5 2.5" />
+                    </svg>
+                </div>
+                <div class="md:w-1/2 p-4">
+                    <h2 class="font-title text-4xl font-bold mb-6">Recebimento de Pedido</h2>
+                    <p class="text-lg leading-relaxed">Pedidos entram automaticamente no sistema, disparando a separação com prioridade e inteligência. O tempo entre pedido e expedição é reduzido drasticamente.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Picking Guiado -->
+        <div id="slide-8" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <img src="https://placehold.co/600x400/F0F0F0/003366?text=Rota+Guiada" alt="Imagem de um operador seguindo uma rota de picking" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="md:w-1/2 p-4">
+                    <h2 class="font-title text-4xl font-bold mb-6">Picking Guiado</h2>
+                    <p class="text-lg leading-relaxed">Separação orientada por rota inteligente, com validação por código de barras. Isso reduz erros e aumenta a produtividade da equipe.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Packing e Etiquetagem -->
+        <div id="slide-9" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row-reverse items-center gap-8">
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <img src="https://placehold.co/600x400/F0F0F0/003366?text=Etiquetagem" alt="Imagem de uma caixa sendo fechada e etiquetada" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="md:w-1/2 p-4">
+                    <h2 class="font-title text-4xl font-bold mb-6">Packing e Etiquetagem</h2>
+                    <p class="text-lg leading-relaxed">Embalagem conforme tipo de transporte e cliente, com rastreabilidade por lote. Garantimos padronização e segurança na expedição.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Embarque com Visibilidade -->
+        <div id="slide-10" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <img src="https://placehold.co/600x400/F0F0F0/003366?text=Caminh%C3%A3o+com+GPS" alt="Imagem de um caminhão com GPS ativo em um mapa" class="rounded-lg shadow-xl w-full">
+                </div>
+                <div class="md:w-1/2 p-4">
+                    <h2 class="font-title text-4xl font-bold mb-6">Embarque com Visibilidade</h2>
+                    <p class="text-lg leading-relaxed">Geração de romaneio, integração com transportadora e rastreio em tempo real. O cliente acompanha cada etapa até a entrega.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Por que Santa Catarina? -->
+        <div id="slide-11" class="slide bg-zuplog-light text-white">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="font-title text-4xl font-bold mb-6">Por que Santa Catarina?</h2>
+                <h3 class="font-bold text-2xl mb-8">Eficiência, Economia e Estratégia</h3>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="bg-white text-zuplog-dark p-8 rounded-lg shadow-lg flex-1">
+                        <h4 class="font-title text-xl font-bold mb-4">São Paulo</h4>
+                        <ul class="list-disc list-inside text-left space-y-2">
+                            <li>Gargalos Logísticos</li>
+                            <li>Custos Elevados</li>
+                            <li>Complexidade Tributária</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zuplog-dark text-white p-8 rounded-lg shadow-lg flex-1 border-4 border-highlight">
+                        <h4 class="font-title text-xl font-bold mb-4">Santa Catarina</h4>
+                        <ul class="list-disc list-inside text-left space-y-2">
+                            <li>Malha Logística Moderna</li>
+                            <li>Incentivos Fiscais</li>
+                            <li>Operação Enxuta e Confiável</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-8 text-lg italic max-w-2xl mx-auto">Operar por SC é uma decisão estratégica. Enquanto São Paulo enfrenta gargalos e custos elevados, Santa Catarina oferece uma malha logística moderna, incentivos fiscais e uma operação mais enxuta e confiável.</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Produtos Imobilizados -->
+        <div id="slide-12" class="slide bg-white text-zuplog-dark">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="font-title text-4xl font-bold mb-8 text-center">Produtos Imobilizados: Vantagens Reais</h2>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start gap-4">
+                        <svg class="w-8 h-8 flex-shrink-0 text-zuplog-light mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <path d="M16 2v4" />
+                            <path d="M8 2v4" />
+                            <path d="M3 10h18" />
+                            <path d="M12 21V10" />
+                            <path d="M12 17h4" />
+                            <path d="M12 14h6" />
+                        </svg>
+                        <p>Crédito de ICMS parcelado em até 48x.</p>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <svg class="w-8 h-8 flex-shrink-0 text-zuplog-light mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 17a5 5 0 0 1 10 0v-4" />
+                            <path d="M10 17a5 5 0 0 1 10 0v-4" />
+                            <path d="M12 17c0-2-3-3-3-5V3h6v9c0 2-3 3-3 5z" />
+                        </svg>
+                        <p>Incentivo fiscal para ativos fixos.</p>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <svg class="w-8 h-8 flex-shrink-0 text-zuplog-light mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M8 12h8" />
+                            <path d="M12 8v8" />
+                        </svg>
+                        <p>Menor impacto no fluxo de caixa.</p>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <svg class="w-8 h-8 flex-shrink-0 text-zuplog-light mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" />
+                            <path d="M12 6v6l4 2" />
+                        </svg>
+                        <p>Ideal para máquinas, equipamentos e bens de uso interno.</p>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <svg class="w-8 h-8 flex-shrink-0 text-zuplog-light mt-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                        </svg>
+                        <p>Operações por conta e ordem com segurança jurídica.</p>
+                    </li>
+                </ul>
+                <p class="mt-8 text-center italic text-gray-600">Para empresas que trabalham com ativos imobilizados, Santa Catarina oferece uma estrutura tributária que permite planejamento inteligente e economia real.</p>
+            </div>
+        </div>
+
+        <!-- Slide 13: Conclusão Estratégica -->
+        <div id="slide-13" class="slide bg-zuplog-dark text-white text-center">
+            <div class="max-w-4xl mx-auto flex flex-col items-center">
+                <h2 class="font-title text-5xl font-bold mb-4">Conclusão Estratégica</h2>
+                <p class="text-xl leading-relaxed max-w-2xl">Na ZUPLOG, aliamos tecnologia, estrutura e inteligência fiscal para entregar uma operação logística de alto desempenho. Com base em Santa Catarina e sistema WMS Stokki, sua empresa ganha em eficiência, previsibilidade e competitividade.</p>
+                <div class="mt-12">
+                    <img src="https://placehold.co/400x200/007FFF/FFFFFF?text=Mapa+SC+%E2%86%92+Brasil" alt="Mapa logístico com rota de SC para o Brasil" class="rounded-lg mb-8 shadow-xl">
+                </div>
+                <p class="font-title text-3xl font-bold mt-8 text-highlight">ZUPLOG ARMAZENAGEM – Onde sua logística encontra estratégia.</p>
+            </div>
+        </div>
+
+        <!-- Slide 14: Análise de Mercado com Gemini -->
+        <div id="slide-14" class="slide bg-[#F0F0F0] text-zuplog-dark text-center">
+            <div class="max-w-4xl mx-auto p-6 rounded-lg shadow-xl bg-white">
+                <h2 class="font-title text-4xl font-bold mb-6">✨ Análise de Mercado powered by Gemini</h2>
+                <p class="text-lg mb-6">Descreva um desafio logístico ou a necessidade de mercado. Nossa IA irá fornecer uma análise e possíveis soluções.</p>
+                <textarea id="prompt-input" rows="4" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-zuplog-light transition-colors resize-none mb-4" placeholder="Ex: 'Quais são os principais desafios de armazenagem para produtos perecíveis no Brasil?'"></textarea>
+                <button id="analyze-btn" class="bg-zuplog-light text-white px-8 py-3 rounded-full font-bold shadow-md hover:bg-zuplog-dark transition-colors flex items-center justify-center w-full">
+                    <span id="button-text">Obter Análise ✨</span>
+                    <div id="loader-spinner" class="loader ml-3 hidden"></div>
                 </button>
+                <div id="result-area" class="mt-8 text-left p-4 bg-gray-100 rounded-lg max-h-96 overflow-y-auto">
+                    <p id="result-text" class="text-gray-700 leading-relaxed"></p>
+                    <div id="citations" class="mt-4 text-sm text-gray-500"></div>
+                </div>
             </div>
-        </nav>
-        <div id="mobile-menu" class="hidden md:hidden">
-            <a href="#sobre" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Quem Somos</a>
-            <a href="#solucoes" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Soluções</a>
-            <a href="#beneficios" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Benefícios</a>
-            <a href="#casos-sucesso" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Casos de Sucesso</a>
-            <a href="#contato" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-200">Contato</a>
         </div>
-    </header>
 
-    <main>
-        <section id="inicio" class="hero-gradient text-white min-h-screen flex items-center justify-center text-center p-6">
-            <div>
-                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">ZUPLOG ARMAZENAGEM</h1>
-                <p class="text-lg md:text-2xl font-light">Otimizando Sua Logística com Soluções Inteligentes para Seus Desafios de Armazenagem.</p>
-            </div>
-        </section>
 
-        <section id="sobre" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center mb-4" style="color: #003366;">Quem Somos</h2>
-                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Esta seção apresenta a Zuplog, nossa missão e os valores que nos guiam. Aqui você entenderá os pilares que sustentam a qualidade e a confiança dos nossos serviços logísticos.</p>
-                <div class="flex flex-col md:flex-row items-center gap-12">
-                    <div class="md:w-1/2">
-                        <img src="https://placehold.co/600x400/E2E8F0/4A5568?text=Armaz%C3%A9m+Moderno" alt="Armazém moderno e organizado" class="rounded-lg shadow-xl w-full">
-                    </div>
-                    <div class="md:w-1/2">
-                        <p class="mb-6 text-lg">A Zuplog é especialista em soluções de armazenagem e logística, dedicada a otimizar a cadeia de suprimentos de nossos clientes com tecnologia de ponta e uma equipe altamente qualificada. Nossa missão é oferecer eficiência, segurança e inovação.</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-                            <div class="p-4">
-                                <span class="text-4xl" style="color: #007FFF;">🏆</span>
-                                <h3 class="font-bold mt-2">Experiência</h3>
-                                <p class="text-sm text-gray-600">Anos de mercado garantindo a melhor performance.</p>
-                            </div>
-                            <div class="p-4">
-                                <span class="text-4xl" style="color: #007FFF;">💡</span>
-                                <h3 class="font-bold mt-2">Inovação</h3>
-                                <p class="text-sm text-gray-600">Uso de tecnologia para otimizar processos.</p>
-                            </div>
-                            <div class="p-4">
-                                <span class="text-4xl" style="color: #007FFF;">🚀</span>
-                                <h3 class="font-bold mt-2">Eficiência</h3>
-                                <p class="text-sm text-gray-600">Agilidade e precisão em cada etapa da operação.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="solucoes" class="py-20 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center mb-4" style="color: #003366;">Nossas Soluções e Serviços</h2>
-                 <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Explore nosso portfólio de serviços. Cada solução foi desenvolvida para atender a uma necessidade específica da sua cadeia logística, desde a estocagem até a distribuição final, sempre com foco em otimização.</p>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-white p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300">
-                        <span class="text-5xl">📦</span>
-                        <h3 class="font-bold text-xl my-4">Armazenagem Geral</h3>
-                        <p class="text-gray-600">Estruturas seguras e flexíveis para acondicionar seus produtos com total controle e eficiência.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300">
-                        <span class="text-5xl">🔄</span>
-                        <h3 class="font-bold text-xl my-4">Cross-Docking</h3>
-                        <p class="text-gray-600">Agilize a distribuição de suas mercadorias, reduzindo custos de armazenagem e tempo de entrega.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300">
-                        <span class="text-5xl">📊</span>
-                        <h3 class="font-bold text-xl my-4">Gestão de Estoques</h3>
-                        <p class="text-gray-600">Controle preciso do seu inventário com relatórios detalhados e visibilidade em tempo real.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-lg shadow-lg text-center transform hover:-translate-y-2 transition-transform duration-300">
-                        <span class="text-5xl">💻</span>
-                        <h3 class="font-bold text-xl my-4">Sistema WMS</h3>
-                        <p class="text-gray-600">Nossa plataforma de Warehouse Management System otimiza cada detalhe da sua operação.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="beneficios" class="py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center mb-4" style="color: #003366;">Por Que Escolher a Zuplog?</h2>
-                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Descubra as vantagens competitivas de ser nosso parceiro. Estes são os benefícios diretos que nossas soluções trarão para o seu negócio, impactando positivamente seus resultados e a satisfação dos seus clientes.</p>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    <div class="flex items-start space-x-4">
-                        <span class="text-3xl mt-1" style="color: #007FFF;">💰</span>
-                        <div>
-                            <h3 class="font-bold text-lg">Economia de Custos</h3>
-                            <p class="text-gray-600">Otimizamos sua operação logística para reduzir despesas com armazenagem e transporte.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <span class="text-3xl mt-1" style="color: #007FFF;">⚡</span>
-                        <div>
-                            <h3 class="font-bold text-lg">Agilidade</h3>
-                            <p class="text-gray-600">Processos rápidos e eficientes que garantem a entrega no prazo e a satisfação do cliente.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <span class="text-3xl mt-1" style="color: #007FFF;">🛡️</span>
-                        <div>
-                            <h3 class="font-bold text-lg">Segurança Total</h3>
-                            <p class="text-gray-600">Monitoramento 24/7 e seguros completos para a proteção integral da sua carga.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <span class="text-3xl mt-1" style="color: #007FFF;">📈</span>
-                        <div>
-                            <h3 class="font-bold text-lg">Escalabilidade</h3>
-                            <p class="text-gray-600">Nossas soluções acompanham o crescimento da sua empresa, adaptando-se às suas necessidades.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <span class="text-3xl mt-1" style="color: #007FFF;">👥</span>
-                        <div>
-                            <h3 class="font-bold text-lg">Equipe Qualificada</h3>
-                            <p class="text-gray-600">Profissionais experientes dedicados a encontrar as melhores soluções para o seu negócio.</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-4">
-                        <span class="text-3xl mt-1" style="color: #007FFF;">🌐</span>
-                        <div>
-                            <h3 class="font-bold text-lg">Tecnologia de Ponta</h3>
-                            <p class="text-gray-600">Utilizamos o sistema WMS para garantir rastreabilidade e otimização total do seu estoque.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="casos-sucesso" class="py-20 bg-gray-50">
-            <div class="container mx-auto px-6 text-center">
-                <h2 class="text-3xl font-bold mb-4" style="color: #003366;">Resultados que Falam por Si</h2>
-                <p class="max-w-3xl mx-auto mb-8 text-gray-600">Nossas soluções geram impacto real nos negócios dos nossos clientes. Interaja com os botões para explorar alguns de nossos resultados anonimizados e veja como podemos otimizar sua operação.</p>
-                <div class="flex justify-center space-x-2 sm:space-x-4 mb-8">
-                    <button class="case-study-btn bg-[#007FFF] text-white py-2 px-4 sm:px-5 rounded-full shadow-md hover:bg-[#005bb5] transition-colors focus:outline-none focus:ring-2 focus:ring-[#007FFF] focus:ring-opacity-50 text-sm sm:text-base" data-case="case1">Indústria Varejista</button>
-                    <button class="case-study-btn bg-gray-200 text-gray-700 py-2 px-4 sm:px-5 rounded-full shadow-md hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 text-sm sm:text-base" data-case="case2">E-commerce</button>
-                    <button class="case-study-btn bg-gray-200 text-gray-700 py-2 px-4 sm:px-5 rounded-full shadow-md hover:bg-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 text-sm sm:text-base" data-case="case3">Setor Farmacêutico</button>
-                </div>
-                <div class="bg-white p-4 sm:p-8 rounded-xl shadow-2xl">
-                    <div class="chart-container">
-                        <canvas id="successChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer id="contato" class="py-16 text-white" style="background-color: #003366;">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-4">Vamos Conversar?</h2>
-            <p class="mb-8 max-w-lg mx-auto">Entre em contato e descubra como a Zuplog pode otimizar a sua logística. Nossa equipe está pronta para entender seu desafio e propor a melhor solução.</p>
-            <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 mb-8">
-                <span>📞 (48) 99668-5381</span>
-                <span>📧 contato@zuplog.com.br</span>
-                <span>🌐 www.zuplog.com.br</span>
-            </div>
-            <a href="#" class="bg-white text-[#003366] font-bold py-3 px-8 rounded-full hover:bg-gray-200 transition-colors text-lg">
-                Agende uma consulta gratuita!
-            </a>
+        <!-- Controles de Navegação -->
+        <div class="fixed bottom-0 left-0 right-0 p-4 bg-white/70 backdrop-blur-md rounded-t-xl flex justify-between items-center z-50 shadow-lg">
+            <button id="prev-btn" class="bg-zuplog-light text-white px-6 py-2 rounded-full font-bold shadow-md hover:bg-zuplog-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+            <span id="slide-counter" class="text-zuplog-dark text-lg font-bold">1 / 14</span>
+            <button id="next-btn" class="bg-zuplog-light text-white px-6 py-2 rounded-full font-bold shadow-md hover:bg-zuplog-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Próximo</button>
         </div>
-    </footer>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const slideCounter = document.getElementById('slide-counter');
+        const promptInput = document.getElementById('prompt-input');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const buttonText = document.getElementById('button-text');
+        const loaderSpinner = document.getElementById('loader-spinner');
+        const resultArea = document.getElementById('result-area');
+        const resultText = document.getElementById('result-text');
+        const citationsDiv = document.getElementById('citations');
 
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            
-            document.querySelectorAll('#mobile-menu a, nav a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    if (link.getAttribute('href').startsWith('#')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                });
-            });
+        const totalSlides = 14;
+        let currentSlide = 0;
 
-            const header = document.getElementById('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('py-2');
-                    header.classList.remove('py-3');
-                } else {
-                    header.classList.add('py-3');
-                    header.classList.remove('py-2');
-                }
-            });
-
-            const caseStudiesData = {
-                case1: {
-                    labels: ['Redução de Custos', 'Aumento de Eficiência', 'Precisão no Estoque', 'Agilidade na Entrega'],
-                    data: [25, 35, 40, 30],
-                    title: 'Resultados para a Indústria Varejista'
-                },
-                case2: {
-                    labels: ['Redução de Custos', 'Aumento de Eficiência', 'Precisão no Estoque', 'Agilidade na Entrega'],
-                    data: [20, 45, 50, 40],
-                    title: 'Resultados para E-commerce'
-                },
-                case3: {
-                    labels: ['Redução de Custos', 'Aumento de Eficiência', 'Precisão no Estoque', 'Agilidade na Entrega'],
-                    data: [15, 25, 60, 20],
-                    title: 'Resultados para o Setor Farmacêutico'
-                }
-            };
-            
-            const ctx = document.getElementById('successChart').getContext('2d');
-            let successChart;
-
-            function renderChart(caseId) {
-                const chartData = caseStudiesData[caseId];
-
-                if (successChart) {
-                    successChart.destroy();
-                }
-
-                successChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: chartData.labels,
-                        datasets: [{
-                            label: 'Melhoria Percentual (%)',
-                            data: chartData.data,
-                            backgroundColor: [
-                                'rgba(0, 127, 255, 0.6)',
-                                'rgba(0, 51, 102, 0.6)',
-                                'rgba(0, 127, 255, 0.4)',
-                                'rgba(0, 51, 102, 0.4)',
-                            ],
-                            borderColor: [
-                                'rgba(0, 127, 255, 1)',
-                                'rgba(0, 51, 102, 1)',
-                                'rgba(0, 127, 255, 1)',
-                                'rgba(0, 51, 102, 1)',
-                            ],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            title: {
-                                display: true,
-                                text: chartData.title,
-                                font: {
-                                    size: 18,
-                                    family: "'Montserrat', sans-serif"
-                                },
-                                color: '#003366'
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Melhoria (%)'
-                                }
-                            }
-                        }
-                    }
-                });
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            const currentSlideElement = document.getElementById(`slide-${index + 1}`);
+            if (currentSlideElement) {
+                currentSlideElement.classList.add('active');
             }
 
-            const caseStudyButtons = document.querySelectorAll('.case-study-btn');
-            caseStudyButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const caseId = button.dataset.case;
-                    renderChart(caseId);
-                    
-                    caseStudyButtons.forEach(btn => {
-                        btn.classList.remove('bg-[#007FFF]', 'text-white');
-                        btn.classList.add('bg-gray-200', 'text-gray-700');
-                    });
-                    
-                    button.classList.add('bg-[#007FFF]', 'text-white');
-                    button.classList.remove('bg-gray-200', 'text-gray-700');
-                });
-            });
+            slideCounter.textContent = `${index + 1} / ${totalSlides}`;
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === totalSlides - 1;
+        }
 
-            renderChart('case1');
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
         });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        analyzeBtn.addEventListener('click', async () => {
+            const prompt = promptInput.value;
+            if (prompt.trim() === '') {
+                resultText.textContent = 'Por favor, insira uma pergunta para obter a análise.';
+                return;
+            }
+
+            // Exibir o spinner e desabilitar o botão
+            buttonText.textContent = 'Analisando...';
+            loaderSpinner.classList.remove('hidden');
+            analyzeBtn.disabled = true;
+            resultText.textContent = '';
+            citationsDiv.innerHTML = '';
+
+            try {
+                const systemPrompt = "Você é um analista de logística de classe mundial da ZUPLOG. Forneça uma análise concisa e de alta qualidade com base no tópico fornecido pelo usuário. Use dados e tendências do mercado logístico para fundamentar sua resposta. Responda em português.";
+                const userQuery = prompt;
+                const apiKey = "AIzaSyAqLGJb3__o_NtwWQ7MwTvYyEl5BtoR_HE";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                let retries = 0;
+                let response = null;
+                while (retries < 3) {
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
+                        if (response.status !== 429) {
+                            break;
+                        }
+                        await new Promise(res => setTimeout(res, Math.pow(2, retries) * 1000));
+                        retries++;
+                    } catch (error) {
+                        retries++;
+                    }
+                }
+
+                if (!response || !response.ok) {
+                    throw new Error(`Erro na API: ${response ? response.status : 'Sem resposta'}`);
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const text = candidate.content.parts[0].text;
+                    resultText.textContent = text;
+
+                    const groundingMetadata = candidate.groundingMetadata;
+                    if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                        const sources = groundingMetadata.groundingAttributions.map(attribution => ({
+                            uri: attribution.web?.uri,
+                            title: attribution.web?.title,
+                        })).filter(source => source.uri && source.title);
+
+                        if (sources.length > 0) {
+                            const sourcesHtml = sources.map((source, index) =>
+                                `<a href="${source.uri}" target="_blank" class="text-blue-500 hover:underline">Fonte ${index + 1}: ${source.title}</a>`
+                            ).join('<br>');
+                            citationsDiv.innerHTML = `<strong>Fontes:</strong><br>${sourcesHtml}`;
+                        }
+                    }
+                } else {
+                    resultText.textContent = 'Não foi possível gerar a análise. Tente novamente mais tarde.';
+                }
+
+            } catch (error) {
+                console.error('Erro ao analisar o mercado:', error);
+                resultText.textContent = `Erro ao obter a análise: ${error.message}`;
+            } finally {
+                // Esconder o spinner e reabilitar o botão
+                buttonText.textContent = 'Obter Análise ✨';
+                loaderSpinner.classList.add('hidden');
+                analyzeBtn.disabled = false;
+            }
+        });
+
+        showSlide(currentSlide);
     </script>
-
 </body>
-</html>
 
+</html>
